@@ -20,7 +20,7 @@ class LibroController extends Controller
      */
     public function create()
     {
-        return view('registroLibro');
+        return view('libro.createLibro');
     }
 
     /**
@@ -28,6 +28,18 @@ class LibroController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'titulo' => 'required',
+            'isbn_13' => 'required|integer|digits:13',
+            'isbn_10' => 'nullable|integer|digits:10',
+            'autor' => 'required|max:100',
+            'editorial' => 'required|max:100',
+            'edicion' => 'required',
+            'ano_publicacion' => 'required',
+            'cantidad_ejemplares' => 'required|integer|min:1',
+            'portada' => 'required|mimes:jpg,png,jpeg',
+        ]);
+
         $libro = new Libro;
         $libro->titulo = $request->titulo;
         $libro->isbn_13 = $request->isbn_13;
@@ -36,11 +48,13 @@ class LibroController extends Controller
         $libro->editorial = $request->editorial;
         $libro->edicion = $request->edicion;
         $libro->ano_publicacion = $request->ano_publicacion;
-        $libro->portada = $request->portada;
+        $libro->cantidad_ejemplares = $request->cantidad_ejemplares;
+        $image_path = $request->file('portada')->store('public/images');
+        $libro->portada = $image_path;
 
         $libro->save();
 
-        return view('registroLibro');
+        return view('libro.indexLibro', ['libros' => Libro::all()]);
     }
 
     /**
