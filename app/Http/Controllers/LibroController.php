@@ -12,7 +12,8 @@ class LibroController extends Controller
      */
     public function index()
     {
-        return view('welcome');
+        $libros = Libro::all();
+        return view('libro.indexLibro', ['libros' => $libros]);
     }
 
     /**
