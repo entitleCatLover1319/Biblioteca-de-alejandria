@@ -20,7 +20,8 @@ return new class extends Migration
             $table->string('editorial', 100);
             $table->tinyInteger('edicion');
             $table->integer('ano_publicacion');
-            $table->binary('portada');
+            $table->tinyInteger('cantidad_ejemplares');
+            $table->string('portada');
         });
     }
 
