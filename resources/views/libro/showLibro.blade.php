@@ -51,8 +51,11 @@
                 <td>{{ $libro->cantidad_ejemplares }}</td>
                 <td>
                     <a href="{{ route('libro.edit', ['libro' => $libro->id]) }}">Editar</a>
-                    |
-                    <a href="{{ route('libro.destroy', ['libro' => $libro->id]) }}">Eliminar</a>
+                    <form action="{{ route('libro.destroy', ['libro' => $libro->id]) }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit">Eliminar</button>
+                    </form>
                 </td>
                 <td>
                     <img src="{{ asset('storage/app/' . $libro->portada) }}">

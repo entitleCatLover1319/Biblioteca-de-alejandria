@@ -114,6 +114,7 @@ class LibroController extends Controller
      */
     public function destroy(Libro $libro)
     {
-        return view('welcome');
+        $libro->delete();
+        return view('libro.indexLibro');
     }
 }

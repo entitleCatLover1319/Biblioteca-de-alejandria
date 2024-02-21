@@ -23,6 +23,7 @@
     </head>
     <body>
         <h1>Lista de libros registrados</h1>
+        @isset($libros)
         <table>
             <th>Título</th>
             <th>Autor</th>
@@ -32,6 +33,7 @@
             <th>ISBN 13</th>
             <th>ISBN 10</th>
             <th>Cantidad de ejemplares</th>
+            <th>Acciones</th>
             <th>Portada</th>
             @foreach ($libros as $libro)
             <tr>
@@ -50,10 +52,14 @@
                 <td>{{ $libro->cantidad_ejemplares }}</td>
                 </td>
                 <td>
+                    <a href="{{ route('libro.show', ['libro' => $libro->id]) }}">Ver libro</a>
+                </td>
+                <td>
                     <img src="{{ asset('storage/app/' . $libro->portada) }}">
                 </td>
             </tr>
             @endforeach
         </table>
+        @endisset
     </body>
 </html>
