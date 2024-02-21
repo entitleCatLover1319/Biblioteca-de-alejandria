@@ -71,7 +71,7 @@ class LibroController extends Controller
      */
     public function edit(Libro $libro)
     {
-        return view('welcome');
+        return view('libro.editLibro', ['libro' => $libro]);
     }
 
     /**
@@ -79,7 +79,34 @@ class LibroController extends Controller
      */
     public function update(Request $request, Libro $libro)
     {
-        return view('welcome');
+        $request->validate([
+            'titulo' => 'required',
+            'isbn_13' => 'required|integer|digits:13',
+            'isbn_10' => 'nullable|integer|digits:10',
+            'autor' => 'required|max:100',
+            'editorial' => 'required|max:100',
+            'edicion' => 'required',
+            'ano_publicacion' => 'required',
+            'cantidad_ejemplares' => 'required|integer|min:1',
+            'portada' => 'nullable|mimes:jpg,png,jpeg',
+        ]);
+
+        $libro->titulo = $request->titulo;
+        $libro->isbn_13 = $request->isbn_13;
+        $libro->isbn_10 = $request->isbn_10;
+        $libro->autor = $request->autor;
+        $libro->editorial = $request->editorial;
+        $libro->edicion = $request->edicion;
+        $libro->ano_publicacion = $request->ano_publicacion;
+        $libro->cantidad_ejemplares = $request->cantidad_ejemplares;
+        if (isset($request->portada)) {
+            $image_path = $request->file('portada')->store('public/images');
+            $libro->portada = $image_path;
+        }
+
+        $libro->save();
+
+        return view('libro.showLibro', ['libro' => $libro]);
     }
 
     /**
