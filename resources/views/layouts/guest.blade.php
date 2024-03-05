@@ -16,6 +16,7 @@
 
         <!-- Styles -->
         @livewireStyles
+        <link href="{{ asset('css/bootstrap4-executive-suite.css') }}" rel="stylesheet">
     </head>
     <body>
         <div class="font-sans text-gray-900 dark:text-gray-100 antialiased">
