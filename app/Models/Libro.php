@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Libro extends Model
 {
+    Use HasFactory;
     /**
      * The table associated with the model.
      *
@@ -20,5 +21,4 @@ class Libro extends Model
      * @var bool
      */
     public $timestamps = false;
-    use HasFactory;
 }

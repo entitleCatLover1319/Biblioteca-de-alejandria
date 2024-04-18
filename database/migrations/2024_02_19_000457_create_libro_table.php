@@ -21,7 +21,7 @@ return new class extends Migration
             $table->tinyInteger('edicion');
             $table->integer('ano_publicacion');
             $table->tinyInteger('cantidad_ejemplares');
-            $table->string('portada');
+            $table->string('portada')->nullable($value = true);
         });
     }
 
