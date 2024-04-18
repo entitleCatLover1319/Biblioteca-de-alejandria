@@ -25,7 +25,7 @@ class LibroFactory extends Factory
             'edicion' => fake()->numberBetween(1, 9),
             'ano_publicacion' => fake()->numberBetween(1800, 2024),
             'cantidad_ejemplares' => fake()->numberBetween(1, 15),
-            'portada' => null,
+            'portada' => fake()->imageURL(500, 759, 'animals', true, null, false, 'png'),
         ];
     }
 }
