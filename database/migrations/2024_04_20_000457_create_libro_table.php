@@ -14,14 +14,9 @@ return new class extends Migration
         Schema::create('libro', function (Blueprint $table) {
             $table->id();
             $table->string('titulo');
-            $table->char('isbn_13', 13);
-            $table->char('isbn_10', 10)->nullable($value = true);
-            $table->string('autor', 100);
-            $table->string('editorial', 100);
-            $table->tinyInteger('edicion');
-            $table->integer('ano_publicacion');
-            $table->tinyInteger('cantidad_ejemplares');
-            $table->string('portada')->nullable($value = true);
+            $table->unsignedBigInteger('autor_id');
+
+            $table->foreign('autor_id')->references('id')->on('autor')->onDelete('cascade');
         });
     }
 

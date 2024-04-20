@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Libro extends Model
 {
@@ -21,4 +23,14 @@ class Libro extends Model
      * @var bool
      */
     public $timestamps = false;
+
+    protected $fillable = ['titulo'];
+
+    public function autor(): BelongsTo {
+        return $this->belongsTo(Autor::class);
+    }
+
+    public function copias(): HasMany {
+        return $this->hasMany(CopiaLibro::class);
+    }
 }
