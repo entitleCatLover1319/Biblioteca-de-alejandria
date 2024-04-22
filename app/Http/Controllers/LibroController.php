@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Libro;
+use App\Models\Autor;
+use App\Models\Editorial;
+use App\Models\CopiaLibro;
 use Illuminate\Http\Request;
 
 class LibroController extends Controller
@@ -12,7 +15,10 @@ class LibroController extends Controller
      */
     public function index()
     {
-        $libros = Libro::all();
+        $libros = Libro::with(['autor', 'copias'])->get();
+        $libros->each(function ($libro) {
+            $libro->cantidad_ejemplares = $libro->copias->count();
+        });
         return view('libro.indexLibro', ['libros' => $libros]);
     }
 
@@ -21,7 +27,8 @@ class LibroController extends Controller
      */
     public function create()
     {
-        return view('libro.createLibro');
+        $autores = Autor::all();
+        return view('libro.createLibro', compact('autores'));
     }
 
     /**
@@ -30,32 +37,28 @@ class LibroController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'titulo' => 'required',
-            'isbn_13' => 'required|integer|digits:13',
-            'isbn_10' => 'nullable|integer|digits:10',
-            'autor' => 'required|max:100',
-            'editorial' => 'required|max:100',
-            'edicion' => 'required',
-            'ano_publicacion' => 'required',
-            'cantidad_ejemplares' => 'required|integer|min:1',
-            'portada' => 'required|mimes:jpg,png,jpeg',
+            'titulo' => 'required|max:255',
+            'autor' => 'required|max:255',
         ]);
 
-        $libro = new Libro;
-        $libro->titulo = $request->titulo;
-        $libro->isbn_13 = $request->isbn_13;
-        $libro->isbn_10 = $request->isbn_10;
-        $libro->autor = $request->autor;
-        $libro->editorial = $request->editorial;
-        $libro->edicion = $request->edicion;
-        $libro->ano_publicacion = $request->ano_publicacion;
-        $libro->cantidad_ejemplares = $request->cantidad_ejemplares;
-        $image_path = $request->file('portada')->store('public/images');
-        $libro->portada = $image_path;
+        // Set text inputs to uppercase.
+        $titulo = mb_strtoupper($request->titulo);
+        $autor = mb_strtoupper($request->autor);
 
+        // Retrieves record with the given input if it already exists,
+        // if not create it.
+        $autor = Autor::firstOrCreate(['nombre' => $autor]);
+
+        // Create new libro instance.
+        $libro = new Libro(['titulo' => $titulo]);
+
+        $libro->autor()->associate($autor);
+
+        // Saves instances in DB.
+        $autor->save();
         $libro->save();
 
-        return view('libro.indexLibro', ['libros' => Libro::all()]);
+        return redirect()->route('copiaLibro.create', ['libro_id' => $libro->id]);
     }
 
     /**
@@ -63,7 +66,7 @@ class LibroController extends Controller
      */
     public function show(Libro $libro)
     {
-        return view('libro.showLibro', ['libro' => $libro]);
+        return view('libro.showLibro', compact('libro'));
     }
 
     /**
@@ -71,7 +74,8 @@ class LibroController extends Controller
      */
     public function edit(Libro $libro)
     {
-        return view('libro.editLibro', ['libro' => $libro]);
+        $autores = Autor::all();
+        return view('libro.editLibro', compact('libro', 'autores'));
     }
 
     /**
@@ -80,33 +84,26 @@ class LibroController extends Controller
     public function update(Request $request, Libro $libro)
     {
         $request->validate([
-            'titulo' => 'required',
-            'isbn_13' => 'required|integer|digits:13',
-            'isbn_10' => 'nullable|integer|digits:10',
-            'autor' => 'required|max:100',
-            'editorial' => 'required|max:100',
-            'edicion' => 'required',
-            'ano_publicacion' => 'required',
-            'cantidad_ejemplares' => 'required|integer|min:1',
-            'portada' => 'nullable|mimes:jpg,png,jpeg',
+            'titulo' => 'required|max:255',
+            'autor' => 'required|max:255',
         ]);
 
-        $libro->titulo = $request->titulo;
-        $libro->isbn_13 = $request->isbn_13;
-        $libro->isbn_10 = $request->isbn_10;
-        $libro->autor = $request->autor;
-        $libro->editorial = $request->editorial;
-        $libro->edicion = $request->edicion;
-        $libro->ano_publicacion = $request->ano_publicacion;
-        $libro->cantidad_ejemplares = $request->cantidad_ejemplares;
-        if (isset($request->portada)) {
-            $image_path = $request->file('portada')->store('public/images');
-            $libro->portada = $image_path;
-        }
+        // Set text inputs to uppercase.
+        $titulo = mb_strtoupper($request->titulo);
+        $autor = mb_strtoupper($request->autor);
 
+        // Retrieves record with the given input if it already exists,
+        // if not create it.
+        $autor = Autor::firstOrCreate(['nombre' => $autor]);
+
+        $libro->titulo = $request->titulo;
+        $libro->autor()->associate($autor);
+
+        // Saves instances in DB.
+        $autor->save();
         $libro->save();
 
-        return view('libro.showLibro', ['libro' => $libro]);
+        return redirect()->route('libro.index');
     }
 
     /**
@@ -115,6 +112,6 @@ class LibroController extends Controller
     public function destroy(Libro $libro)
     {
         $libro->delete();
-        return view('libro.indexLibro');
+        return redirect()->route('libro.index');
     }
 }

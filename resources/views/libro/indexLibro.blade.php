@@ -1,14 +1,13 @@
 <x-app-layout>
     <h1>Lista de libros registrados</h1>
-    @isset($libros)
+    @if ($libros->isEmpty())
+        <h2>No se encuentran libros registrados.</h2>
+    @else
         <table class="table table-hover table-striped">
-            <x-libros.tableHeader />
+            <x-libros.tableHeaderIndex />
             @foreach ($libros as $libro)
-                <x-libros.tableRow :libro="$libro" :allBooks="true"/>
+                <x-libros.tableRowIndex :libro="$libro"/>
             @endforeach
         </table>
-    @endisset
-    @empty($libros)
-        <h2>No se encuentran libros registrados.</h2>
-    @endisset
+    @endif
 </x-app-layout>
