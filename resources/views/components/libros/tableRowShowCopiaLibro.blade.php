@@ -8,7 +8,9 @@
     @else
         <td>{{ $copiaLibro->isbn_10 }}</td>
     @endif
-    <td>{{ $copiaLibro->portada }}</td>
+    <td>
+        <x-libros.portada src="{{ asset($copiaLibro->portada) }}" />
+    </td>
     <td>
         <a href="{{ route('libro.edit', ['libro' => $copiaLibro->libro->id]) }}">Solicitar préstamo.</a>
     </td>
