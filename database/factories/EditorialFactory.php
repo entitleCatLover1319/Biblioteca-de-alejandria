@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Libro>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Editorial>
  */
-class LibroFactory extends Factory
+class EditorialFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,7 +17,7 @@ class LibroFactory extends Factory
     public function definition(): array
     {
         return [
-            'titulo' => fake()->sentence(4),
+            'nombre' => fake()->sentence(1),
         ];
     }
 }
