@@ -18,7 +18,7 @@ class ReviewFactory extends Factory
     {
         return [
             'contenido' => fake()->paragraph(),
-            'puntaje' => fake()->numberBetween(0, 5),
+            'puntaje' => fake()->numberBetween(1, 5),
         ];
     }
 }

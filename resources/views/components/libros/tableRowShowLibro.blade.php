@@ -8,7 +8,7 @@
         <form style="display:inline" action="{{ route('libro.destroy', ['libro' => $libro->id]) }}" method="POST">
             @csrf
             @method('DELETE')
-            <button class="btn btn-link" type="submit">Eliminar libro.</button>
+            <button class="btn btn-danger" type="submit">Eliminar libro.</button>
         </form>
     </td>
 </tbody>

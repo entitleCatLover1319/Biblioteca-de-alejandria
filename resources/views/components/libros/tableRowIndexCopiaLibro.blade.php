@@ -19,7 +19,7 @@
         <form style="display:inline" action="{{ route('copiaLibro.update', ['copiaLibro' => $copia->id]) }}" method="POST">
             @csrf
             @method('DELETE')
-            <button class="btn btn-link" type="submit">Eliminar ejemplar.</button>
+            <button class="btn btn-danger" type="submit">Eliminar ejemplar.</button>
         </form>
     </td>
 </tbody>

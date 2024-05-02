@@ -6,7 +6,6 @@ use App\Models\Libro;
 use App\Models\Autor;
 use App\Models\Editorial;
 use App\Models\CopiaLibro;
-use App\Models\Review;
 use Illuminate\Http\Request;
 
 class LibroController extends Controller
@@ -67,7 +66,7 @@ class LibroController extends Controller
      */
     public function show(Libro $libro)
     {
-        $reviews = Review::where('libro_id', $libro->id)->with('user')->get();
+        $reviews = $libro->reviews()->with('user')->get();
         return view('libro.showLibro', compact('libro', 'reviews'));
     }
 

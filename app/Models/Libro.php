@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Libro extends Model
 {
@@ -38,4 +39,10 @@ class Libro extends Model
         return $this->hasMany(Review::class);
     }
 
+    public function usersReviewed(): BelongsToMany {
+        return $this->belongsToMany(User::class, 'review', 'libro_id', 'user_id')
+            ->as('review')
+            ->withPivot('contenido', 'puntaje')
+            ->withTimestamps();
+    }
 }

@@ -17,7 +17,7 @@ class LibroFactory extends Factory
     public function definition(): array
     {
         return [
-            'titulo' => fake()->sentence(4),
+            'titulo' => substr(fake()->sentence(4), 0, -1),
         ];
     }
 }
