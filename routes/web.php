@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LibroController;
 use App\Http\Controllers\CopiaLibroController;
+use App\Http\Controllers\ReviewController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,6 +29,8 @@ Route::get('/copiaLibro/{copiaLibro}/show', [CopiaLibroController::class, 'show'
 Route::get('/copiaLibro/{copiaLibro}/edit', [CopiaLibroController::class, 'edit'])->name('copiaLibro.edit');
 Route::patch('/copiaLibro/{copiaLibro}/edit', [CopiaLibroController::class, 'update'])->name('copiaLibro.update');
 Route::delete('/copiaLibro/{copiaLibro}', [CopiaLibroController::class, 'destroy'])->name('copiaLibro.destroy');
+
+Route::resource('review', ReviewController::class);
 
 Route::middleware([
     'auth:sanctum',
