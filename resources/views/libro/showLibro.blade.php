@@ -6,18 +6,24 @@
     </table>
     <div class="container py-1 mb5">
         <h3>Reseñas de los usuarios.</h3>
-        <form action="{{ route('review.store') }}" method="POST">
-            @csrf
+        @if (Auth::check())
+            <!-- Checks if logged in user has already posted a review. If not -->
+            <!-- let they post one -->
+            @if (!$libro->usersReviewed()->where('user_id', Auth::id())->first())
+            <form action="{{ route('review.store') }}" method="POST">
+                @csrf
 
-            <input type="hidden" name="libro_id" value="{{ $libro->id }}">
-            <x-forms.textArea
-                name="review"
-                label="Escribe una reseña sobre libro: "
-                placeholder=""
-            />
-            <x-forms.star-rating value="0"/>
-            <button class="btn btn-primary" type="submit">Dejar reseña</button><br>
-        </form>
+                <input type="hidden" name="libro_id" value="{{ $libro->id }}">
+                <x-forms.textArea
+                    name="review"
+                    label="Escribe una reseña sobre libro: "
+                    placeholder=""
+                />
+                <x-forms.star-rating value="0"/>
+                <button class="btn btn-primary" type="submit">Dejar reseña</button><br>
+            </form>
+            @endif
+        @endif
         @if (count($reviews) === 0)
             <h4 style="margin-top:20px">No hay reseñas sobre este libro ¡Se el primero en dejar una!</h4>
         @endif
