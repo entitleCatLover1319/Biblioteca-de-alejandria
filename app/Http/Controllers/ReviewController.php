@@ -15,7 +15,8 @@ class ReviewController extends Controller
      */
     public function index()
     {
-        return view('dashboard');
+        $reviews = Review::where('user_id', Auth::id())->with('libro')->get();
+        return view('review.index', compact('reviews'));
     }
 
     /**
@@ -23,7 +24,7 @@ class ReviewController extends Controller
      */
     public function create()
     {
-        return view('dashboard');
+        return redirect()->route('review.index');
     }
 
     /**
@@ -52,7 +53,7 @@ class ReviewController extends Controller
      */
     public function show(Review $review)
     {
-        return view('dashboard');
+        return redirect()->route('review.index');
     }
 
     /**
@@ -60,7 +61,7 @@ class ReviewController extends Controller
      */
     public function edit(Review $review)
     {
-        return view('dashboard');
+        return view('review.edit', compact('review'));
     }
 
     /**
@@ -68,7 +69,16 @@ class ReviewController extends Controller
      */
     public function update(Request $request, Review $review)
     {
-        //
+        $request->validate([
+            'review' => 'required|max:65535',
+            'puntaje' => 'required|integer|min:1|max:5',
+        ]);
+
+        $review->contenido = $request->review;
+        $review->puntaje = $request->puntaje;
+        $review->save();
+
+        return redirect()->route('review.index');
     }
 
     /**
@@ -76,6 +86,7 @@ class ReviewController extends Controller
      */
     public function destroy(Review $review)
     {
-        //
+        $review->delete();
+        return redirect()->back();
     }
 }

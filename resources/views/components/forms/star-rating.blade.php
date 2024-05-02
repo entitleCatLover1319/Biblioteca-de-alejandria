@@ -3,12 +3,14 @@
         <label for="puntaje" class="form-label">Calificación: </label>
     </div>
     <div class="rating">
-        <input type="hidden" name="puntaje" id="puntaje" value="{{old('puntaje') ?? 0}}">
-        <span class="fa fa-star star" data-rating="1"></span>
-        <span class="fa fa-star star" data-rating="2"></span>
-        <span class="fa fa-star star" data-rating="3"></span>
-        <span class="fa fa-star star" data-rating="4"></span>
-        <span class="fa fa-star star" data-rating="5"></span>
+        <input type="hidden" name="puntaje" id="puntaje" value="{{old('puntaje') ?? $value}}">
+        @for ($i = 1; $i <= 5; $i++)
+            @if ($i <= $value)
+            <span class="fa fa-star star active" data-rating="{{ $i }}"></span>
+            @else
+            <span class="fa fa-star star" data-rating="{{ $i }}"></span>
+            @endif
+        @endfor
     </div>
     @error('puntaje')
         <div class="alert alert-danger"><small>{{$message}}</small></div>

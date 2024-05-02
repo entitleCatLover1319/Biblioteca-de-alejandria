@@ -17,7 +17,8 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->text('contenido');
             $table->integer('puntaje');
-            $table->timestamps();
+            $table->timestamps(precision: 0);
+            $table->softDeletes();
 
             $table->foreign('libro_id')->references('id')->on('libro')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
