@@ -16,10 +16,10 @@
     <td>
         <a href="{{ route('copiaLibro.show', ['copiaLibro' => $copia->id]) }}">Ver ejemplar.</a>
         <a href="{{ route('copiaLibro.edit', ['copiaLibro' => $copia->id]) }}">Editar ejemplar.</a>
-        <form action="{{ route('copiaLibro.update', ['copiaLibro' => $copia->id]) }}" method="POST">
+        <form style="display:inline" action="{{ route('copiaLibro.update', ['copiaLibro' => $copia->id]) }}" method="POST">
             @csrf
             @method('DELETE')
-            <button class="btn btn-primary" type="submit">Eliminar ejemplar.</button>
+            <button class="btn btn-link" type="submit">Eliminar ejemplar.</button>
         </form>
     </td>
 </tbody>
