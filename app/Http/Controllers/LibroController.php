@@ -16,7 +16,28 @@ class LibroController extends Controller
      */
     public function index()
     {
-        $libros = Libro::with(['autor', 'copias'])->get();
+        if (request()->has('search')) {
+            $search = request()->input('search');
+            // Looks for autores with name like $search and retrieves only the id.
+            $autores_id = Autor::where('nombre', 'like', '%' . $search . '%')->pluck('id');
+            // Looks for distinct copiaLibro with isbn (13 or 10) like $search and retrieves
+            // the libro_id.
+            $copias_libro_fk = CopiaLibro::where('isbn_13', 'like', $search . '%')
+                ->orWhere('isbn_10', 'like', $search . '%')
+                ->distinct('libro_id')
+                ->pluck('libro_id');
+            // Looks for libr with titulo like $search or autor id in autores_id or
+            // id in copias_libro_fk.
+            $libros = Libro::where('titulo', 'like', '%' . $search . '%')
+                ->orWhereIn('autor_id', $autores_id->toArray())
+                ->orWhereIn('id', $copias_libro_fk->toArray())
+                ->with(['autor', 'copias'])
+                ->get();
+        }
+        else {
+            $libros = Libro::with(['autor', 'copias'])->get();
+        }
+
         $libros->each(function ($libro) {
             $libro->cantidad_ejemplares = $libro->copias->count();
         });
