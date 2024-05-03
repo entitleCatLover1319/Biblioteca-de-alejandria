@@ -20,17 +20,28 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource('libro', LibroController::class);
-// Route::resource('copiaLibro', CopiaLibroController::class);
-Route::get('/copiaLibro/{libro_id}', [CopiaLibroController::class, 'index'])->name('copiaLibro.index');
-Route::get('/copiaLibro/{libro_id}/create', [CopiaLibroController::class, 'create'])->name('copiaLibro.create');
-Route::post('/copiaLibro/{libro_id}/store', [CopiaLibroController::class, 'store'])->name('copiaLibro.store');
-Route::get('/copiaLibro/{copiaLibro}/show', [CopiaLibroController::class, 'show'])->name('copiaLibro.show');
-Route::get('/copiaLibro/{copiaLibro}/edit', [CopiaLibroController::class, 'edit'])->name('copiaLibro.edit');
-Route::patch('/copiaLibro/{copiaLibro}/edit', [CopiaLibroController::class, 'update'])->name('copiaLibro.update');
-Route::delete('/copiaLibro/{copiaLibro}', [CopiaLibroController::class, 'destroy'])->name('copiaLibro.destroy');
+// Register Libro resource methods under the auth middleware
+Route::resource('libro', LibroController::class)->only([
+    'create', 'store', 'edit', 'update', 'destroy'
+])->middleware('auth');
 
-Route::resource('review', ReviewController::class);
+// This routes can be accessed by guest users
+Route::get('libro', [LibroController::class, 'index'])->name('libro.index');
+Route::get('libro/{libro}', [LibroController::class, 'show'])->name('libro.show');
+
+Route::get('/copiaLibro/{libro_id}', [CopiaLibroController::class, 'index'])->name('copiaLibro.index');
+Route::get('/copiaLibro/{copiaLibro}/show', [CopiaLibroController::class, 'show'])->name('copiaLibro.show');
+
+// Register remaining CopiaLibroController methods under auth middleware
+Route::middleware(['auth'])->group(function () {
+    Route::get('/copiaLibro/{libro_id}/create', [CopiaLibroController::class, 'create'])->name('copiaLibro.create');
+    Route::post('/copiaLibro/{libro_id}/store', [CopiaLibroController::class, 'store'])->name('copiaLibro.store');
+    Route::get('/copiaLibro/{copiaLibro}/edit', [CopiaLibroController::class, 'edit'])->name('copiaLibro.edit');
+    Route::patch('/copiaLibro/{copiaLibro}/edit', [CopiaLibroController::class, 'update'])->name('copiaLibro.update');
+    Route::delete('/copiaLibro/{copiaLibro}', [CopiaLibroController::class, 'destroy'])->name('copiaLibro.destroy');
+});
+
+Route::resource('review', ReviewController::class)->middleware('auth');
 
 Route::middleware([
     'auth:sanctum',

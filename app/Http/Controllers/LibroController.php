@@ -16,7 +16,6 @@ class LibroController extends Controller
      */
     public function index()
     {
-        Gate::authorize('viewAny', Libro::class);
         if (request()->has('search')) {
             $search = request()->input('search');
             // Looks for autores with name like $search and retrieves only the id.
@@ -93,7 +92,6 @@ class LibroController extends Controller
      */
     public function show(Libro $libro)
     {
-        Gate::authorize('view', $libro);
         $reviews = $libro->reviews()->with('user')->get();
         return view('libro.showLibro', compact('libro', 'reviews'));
     }

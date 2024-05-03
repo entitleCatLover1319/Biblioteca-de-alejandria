@@ -16,7 +16,6 @@ class CopiaLibroController extends Controller
      */
     public function index(string $libro_id)
     {
-        Gate::authorize('viewAny', CopiaLibro::class);
         $libro = Libro::where('id', $libro_id)->firstOrFail();
         $copias = CopiaLibro::where('libro_id', $libro->id)
             ->with('editorial')
@@ -91,7 +90,6 @@ class CopiaLibroController extends Controller
      */
     public function show(CopiaLibro $copiaLibro)
     {
-        Gate::authorize('view', $copiaLibro);
         return view('copiasLibro.show', compact('copiaLibro'));
     }
 
