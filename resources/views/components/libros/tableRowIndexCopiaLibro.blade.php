@@ -15,11 +15,15 @@
     </td>
     <td>
         <a href="{{ route('copiaLibro.show', ['copiaLibro' => $copia->id]) }}">Ver ejemplar.</a>
-        <a href="{{ route('copiaLibro.edit', ['copiaLibro' => $copia->id]) }}">Editar ejemplar.</a>
-        <form style="display:inline" action="{{ route('copiaLibro.update', ['copiaLibro' => $copia->id]) }}" method="POST">
-            @csrf
-            @method('DELETE')
-            <button class="btn btn-danger" type="submit">Eliminar ejemplar.</button>
-        </form>
+        @can('update', $copia)
+            <a href="{{ route('copiaLibro.edit', ['copiaLibro' => $copia->id]) }}">Editar ejemplar.</a>
+        @endcan
+        @can(['delete', 'forceDelete'], $copia)
+            <form style="display:inline" action="{{ route('copiaLibro.update', ['copiaLibro' => $copia->id]) }}" method="POST">
+                @csrf
+                @method('DELETE')
+                <button class="btn btn-danger" type="submit">Eliminar ejemplar.</button>
+            </form>
+        @endcan
     </td>
 </tbody>

@@ -19,18 +19,18 @@
                 @endfor
             </span>
         </div>
-        @if (auth()->check())
-            @if ($review->user->id === auth()->id())
             <div style="float:right">
+            @can('update', $review)
                 <a style="margin-right:10px" href="{{ route('review.edit', ['review' => $review]) }}">Editar reseña</a>
+            @endcan
+            @canany(['delete', 'forceDelete'], $review)
                 <form style="display:inline" action="{{ route('review.destroy', ['review' => $review]) }}" method="POST">
                     @csrf
                     @method('DELETE')
                     <button class="btn btn-danger" type="submit">Eliminar reseña</button>
                 </form>
+            @endcanany
             </div>
-            @endif
-        @endif
       </div>
       <div class="card-body">
         <blockquote class="card-blockquote">

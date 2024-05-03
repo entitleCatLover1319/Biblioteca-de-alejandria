@@ -1,5 +1,9 @@
 <x-app-layout>
-    <h1>Lista de libros registrados</h1>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+            Catálogo de libros disponibles.
+        </h2>
+    </x-slot>
     @if ($libros->isEmpty())
         <h2>No se encuentran libros registrados.</h2>
     @else
