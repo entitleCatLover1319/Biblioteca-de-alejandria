@@ -60,6 +60,10 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
+    public function isAdmin(): bool {
+        return $this->is_admin === 1;
+    }
+
     public function reviews(): HasMany {
         return $this->hasMany(Review::class);
     }

@@ -7,6 +7,7 @@ use App\Models\Libro;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class ReviewController extends Controller
 {
@@ -15,6 +16,8 @@ class ReviewController extends Controller
      */
     public function index()
     {
+        Gate::authorize('viewAny', Review::class);
+
         $reviews = Review::where('user_id', Auth::id())->with('libro')->get();
         return view('review.index', compact('reviews'));
     }
@@ -24,6 +27,7 @@ class ReviewController extends Controller
      */
     public function create()
     {
+        Gate::authorize('create', Review::class);
         return redirect()->route('review.index');
     }
 
@@ -32,6 +36,7 @@ class ReviewController extends Controller
      */
     public function store(Request $request)
     {
+        Gate::authorize('create', Review::class);
         $request->validate([
             'libro_id' => 'required|exists:libro,id',
             'review' => 'required|max:65535',
@@ -53,6 +58,7 @@ class ReviewController extends Controller
      */
     public function show(Review $review)
     {
+        Gate::authorize('view', $review);
         return redirect()->route('review.index');
     }
 
@@ -61,6 +67,7 @@ class ReviewController extends Controller
      */
     public function edit(Review $review)
     {
+        Gate::authorize('update', $review);
         return view('review.edit', compact('review'));
     }
 
@@ -69,6 +76,7 @@ class ReviewController extends Controller
      */
     public function update(Request $request, Review $review)
     {
+        Gate::authorize('update', $review);
         $request->validate([
             'review' => 'required|max:65535',
             'puntaje' => 'required|integer|min:1|max:5',
@@ -86,6 +94,7 @@ class ReviewController extends Controller
      */
     public function destroy(Review $review)
     {
+        Gate::authorize('delete', $review);
         $review->delete();
         return redirect()->back();
     }

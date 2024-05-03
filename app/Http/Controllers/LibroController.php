@@ -7,6 +7,7 @@ use App\Models\Autor;
 use App\Models\Editorial;
 use App\Models\CopiaLibro;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class LibroController extends Controller
 {
@@ -27,6 +28,8 @@ class LibroController extends Controller
      */
     public function create()
     {
+        Gate::authorize('create', Libro::class);
+
         $autores = Autor::all();
         return view('libro.createLibro', compact('autores'));
     }
@@ -36,6 +39,8 @@ class LibroController extends Controller
      */
     public function store(Request $request)
     {
+        Gate::authorize('create', Libro::class);
+
         $request->validate([
             'titulo' => 'required|max:255',
             'autor' => 'required|max:255',
@@ -75,6 +80,8 @@ class LibroController extends Controller
      */
     public function edit(Libro $libro)
     {
+        Gate::authorize('update', Libro::class);
+
         $autores = Autor::all();
         return view('libro.editLibro', compact('libro', 'autores'));
     }
@@ -84,6 +91,8 @@ class LibroController extends Controller
      */
     public function update(Request $request, Libro $libro)
     {
+        Gate::authorize('update', Libro::class);
+
         $request->validate([
             'titulo' => 'required|max:255',
             'autor' => 'required|max:255',
@@ -112,6 +121,8 @@ class LibroController extends Controller
      */
     public function destroy(Libro $libro)
     {
+        Gate::authorize('delete', Libro::class);
+
         $libro->delete();
         return redirect()->route('libro.index');
     }

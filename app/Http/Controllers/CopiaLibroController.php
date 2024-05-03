@@ -7,6 +7,7 @@ use App\Models\Libro;
 use App\Models\Autor;
 use App\Models\Editorial;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class CopiaLibroController extends Controller
 {
@@ -15,6 +16,7 @@ class CopiaLibroController extends Controller
      */
     public function index(string $libro_id)
     {
+        Gate::authorize('viewAny', CopiaLibro::class);
         $libro = Libro::where('id', $libro_id)->firstOrFail();
         $copias = CopiaLibro::where('libro_id', $libro->id)
             ->with('editorial')
@@ -27,6 +29,7 @@ class CopiaLibroController extends Controller
      */
     public function create(string $libro_id)
     {
+        Gate::authorize('create', CopiaLibro::class);
         $libro = Libro::where('id', $libro_id)->firstOrFail();
         $editoriales = Editorial::all();
         return view('copiasLibro.create', compact('libro', 'editoriales'));
@@ -37,6 +40,7 @@ class CopiaLibroController extends Controller
      */
     public function store(Request $request)
     {
+        Gate::authorize('create', CopiaLibro::class);
         $request->validate([
             'isbn_13' => 'required|integer|digits:13',
             'isbn_10' => 'nullable|integer|digits:10',
@@ -87,6 +91,7 @@ class CopiaLibroController extends Controller
      */
     public function show(CopiaLibro $copiaLibro)
     {
+        Gate::authorize('view', $copiaLibro);
         return view('copiasLibro.show', compact('copiaLibro'));
     }
 
@@ -95,6 +100,7 @@ class CopiaLibroController extends Controller
      */
     public function edit(CopiaLibro $copiaLibro)
     {
+        Gate::authorize('update', $copiaLibro);
         $editoriales = Editorial::all();
         return view('copiasLibro.edit', compact('copiaLibro', 'editoriales'));
     }
@@ -104,6 +110,7 @@ class CopiaLibroController extends Controller
      */
     public function update(Request $request, CopiaLibro $copiaLibro)
     {
+        Gate::authorize('update', $copiaLibro);
         $request->validate([
             'isbn_13' => 'required|integer|digits:13',
             'isbn_10' => 'nullable|integer|digits:10',
@@ -143,7 +150,7 @@ class CopiaLibroController extends Controller
      */
     public function destroy(CopiaLibro $copiaLibro)
     {
-        // dd($copiaLibro);
+        Gate::authorize('delete', $copiaLibro);
         $libro_id = $copiaLibro->libro->id;
         $copiaLibro->delete();
         return redirect()->route('copiaLibro.index', compact('libro_id'));
