@@ -1,6 +1,10 @@
 <x-app-layout>
-    <div class="container py-1 mb5">
-        <h3>Actualiza tu reseña sobre {{ $review->libro->titulo }}.</h3>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+            Edita tu reseña sobre {{ $review->libro->titulo }}
+        </h2>
+    </x-slot>
+    <div class="container">
         <form action="{{ route('review.update', ['review' => $review]) }}" method="POST">
             @csrf
             @method('PATCH')

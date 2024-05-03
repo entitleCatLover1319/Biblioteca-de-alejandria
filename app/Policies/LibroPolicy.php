@@ -11,17 +11,17 @@ class LibroPolicy
     /**
      * Determine whether the user can view any models.
      */
-    public function viewAny(User $user): bool
+    public function viewAny(User $user): Response
     {
-        //
+        return Response::allow();
     }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Libro $libro): bool
+    public function view(User $user, Libro $libro): Response
     {
-        //
+        return Response::allow();
     }
 
     /**

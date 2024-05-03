@@ -1,5 +1,10 @@
 <x-app-layout>
-    <div class="container h-100">
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+            Registro de libro nuevo
+        </h2>
+    </x-slot>
+    <div class="container py-6">
         <div class="row h-100 justify-content-center align-items-center">
             <div class="card" style="width: 500px">
                 <div class="card-body">

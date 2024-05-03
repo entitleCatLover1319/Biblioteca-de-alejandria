@@ -17,7 +17,7 @@ class LibroFactory extends Factory
     public function definition(): array
     {
         return [
-            'titulo' => substr(fake()->sentence(4), 0, -1),
+            'titulo' => mb_strtoupper(substr(fake()->sentence(4), 0, -1)),
         ];
     }
 }

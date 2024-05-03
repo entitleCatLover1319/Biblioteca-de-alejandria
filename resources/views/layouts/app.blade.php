@@ -16,7 +16,6 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
 
         <!-- Styles -->
-        @livewireStyles
         <link href="{{ asset('css/bootstrap4-executive-suite.css') }}" rel="stylesheet">
     </head>
     <body class="font-sans antialiased">

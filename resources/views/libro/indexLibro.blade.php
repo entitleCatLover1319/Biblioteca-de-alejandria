@@ -15,7 +15,7 @@
     </x-slot>
     <div class="container py-6">
     @if ($libros->isEmpty())
-        <h2>No se encuentran libros registrados.</h2>
+        <h2>No se encontraron libros.</h2>
     @else
         <table class="table table-hover table-striped">
             <x-libros.tableHeaderIndex />

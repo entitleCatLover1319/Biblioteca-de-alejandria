@@ -19,7 +19,7 @@
             <a href="{{ route('copiaLibro.edit', ['copiaLibro' => $copia->id]) }}">Editar ejemplar.</a>
         @endcan
         @can(['delete', 'forceDelete'], $copia)
-            <form style="display:inline" action="{{ route('copiaLibro.update', ['copiaLibro' => $copia->id]) }}" method="POST">
+            <form style="display:inline" action="{{ route('copiaLibro.destroy', ['copiaLibro' => $copia->id]) }}" method="POST">
                 @csrf
                 @method('DELETE')
                 <button class="btn btn-danger" type="submit">Eliminar ejemplar.</button>

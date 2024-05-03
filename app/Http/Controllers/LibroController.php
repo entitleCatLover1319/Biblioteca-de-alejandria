@@ -16,6 +16,7 @@ class LibroController extends Controller
      */
     public function index()
     {
+        Gate::authorize('viewAny', Libro::class);
         if (request()->has('search')) {
             $search = request()->input('search');
             // Looks for autores with name like $search and retrieves only the id.
@@ -92,6 +93,7 @@ class LibroController extends Controller
      */
     public function show(Libro $libro)
     {
+        Gate::authorize('view', $libro);
         $reviews = $libro->reviews()->with('user')->get();
         return view('libro.showLibro', compact('libro', 'reviews'));
     }
@@ -101,8 +103,7 @@ class LibroController extends Controller
      */
     public function edit(Libro $libro)
     {
-        Gate::authorize('update', Libro::class);
-
+        Gate::authorize('update', $libro);
         $autores = Autor::all();
         return view('libro.editLibro', compact('libro', 'autores'));
     }
@@ -112,8 +113,7 @@ class LibroController extends Controller
      */
     public function update(Request $request, Libro $libro)
     {
-        Gate::authorize('update', Libro::class);
-
+        Gate::authorize('update', $libro);
         $request->validate([
             'titulo' => 'required|max:255',
             'autor' => 'required|max:255',
@@ -142,7 +142,7 @@ class LibroController extends Controller
      */
     public function destroy(Libro $libro)
     {
-        Gate::authorize('delete', Libro::class);
+        Gate::authorize('delete', $libro);
 
         $libro->delete();
         return redirect()->route('libro.index');

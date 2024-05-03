@@ -1,9 +1,15 @@
 <x-app-layout>
-    <h1>{{ $libro->titulo }}</h1>
-    <table class="table table-hover table-striped">
-        <x-libros.tableHeaderShowLibro />
-        <x-libros.tableRowShowLibro :libro="$libro" />
-    </table>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+            Libro: {{ $libro->titulo }}
+        </h2>
+    </x-slot>
+    <div class="container py-6">
+        <table class="table table-hover table-striped">
+            <x-libros.tableHeaderShowLibro />
+            <x-libros.tableRowShowLibro :libro="$libro" />
+        </table>
+    </div>
     <div class="container py-1 mb5">
         <h3>Reseñas de los usuarios.</h3>
         @if (Auth::check())
