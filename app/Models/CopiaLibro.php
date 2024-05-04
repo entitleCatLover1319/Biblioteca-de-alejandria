@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 
 class CopiaLibro extends Model
@@ -25,5 +26,9 @@ class CopiaLibro extends Model
 
     public function editorial(): BelongsTo {
         return $this->belongsTo(Editorial::class);
+    }
+
+    public function prestamo(): HasOne {
+        return $this->hasOne(Prestamo::class);
     }
 }

@@ -45,4 +45,8 @@ class Libro extends Model
             ->withPivot('contenido', 'puntaje')
             ->withTimestamps();
     }
+
+    public function prestamos(): HasMany {
+        return $this->hasMany(Prestamo::class);
+    }
 }

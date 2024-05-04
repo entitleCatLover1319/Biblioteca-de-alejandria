@@ -10,6 +10,7 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable
 {
@@ -71,4 +72,9 @@ class User extends Authenticatable
     public function reviewedLibros(): BelongsToMany {
         return $this->belongsToMany(Libro::class, 'review', 'user_id', 'libro_id')->as('review')->withPivot('contenido', 'puntaje')->withTimestamps();
     }
+
+    public function prestamos(): HasMany {
+        return $this->hasMany(Prestamo::class);
+    }
+
 }

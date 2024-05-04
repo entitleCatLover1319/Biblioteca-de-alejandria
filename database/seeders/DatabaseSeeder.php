@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             EditorialSeeder::class,
             CopiaLibroSeeder::class,
             ReviewSeeder::class,
+            PrestamoSeeder::class,
         ]);
     }
 }

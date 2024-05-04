@@ -12,6 +12,10 @@
         <x-libros.portada src="{{ asset($copiaLibro->portada) }}" />
     </td>
     <td>
-        <a href="{{ route('libro.edit', ['libro' => $copiaLibro->libro->id]) }}">Solicitar préstamo.</a>
+        <form action="{{ route('prestamo.create') }}" method="GET">
+            <input name="libro" value="{{ $copiaLibro->libro->id }}" type="hidden">
+            <input name="copia" value="{{ $copiaLibro->id }}" type="hidden">
+            <button class="btn btn-link" type="submit" >Solicitar préstamo.</button>
+        </form>
     </td>
 </tbody>
