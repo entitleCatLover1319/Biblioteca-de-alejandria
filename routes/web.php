@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LibroController;
 use App\Http\Controllers\CopiaLibroController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\PrestamoController;
+use App\Http\Controllers\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,12 +45,15 @@ Route::middleware(['auth'])->group(function () {
 
 Route::resource('review', ReviewController::class)->middleware('auth');
 
+Route::resource('prestamo', PrestamoController::class)->middleware('auth');
+// Route::get('probar-correo/{copiaLibro}', function(CopiaLibro $copia_libro) {
+//     return new App\Mail\BorrowStartNotification($copia_libro);
+// })->name('probar-correo');
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'load'])->name('dashboard');
 });
