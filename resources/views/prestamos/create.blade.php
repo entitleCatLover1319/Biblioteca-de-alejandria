@@ -6,8 +6,19 @@
     </x-slot>
 
     <div class="container py-6">
-        <div style="display:flex" class="justify-content-center">
-            <h3>El prestamo es por 14 días, con fecha tentativa de devolución: {{ $return_date }}.</h3>
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="card">
+                <div class="card-header" style="display: flex; justify-content:space-between; align-items: center; gap:10px;">
+                    Prestamo de {{ App\Models\Libro::where('id', $libro_id)->first()->titulo }}.
+                </div>
+                <div class="card-body">
+                    <p>
+                        Usted está por solicitar el préstamo del libro {{ App\Models\Libro::where('id', $libro_id)->first()->titulo }}.
+                        <br>
+                        El préstamo es por <b>14 días</b>, con fecha de devolución: <b>{{ $return_date }}</b>.
+                    </p>
+                </div>
+            </div>
         </div>
         <div style="display:flex" class="py-6 justify-content-center">
             <form action="{{ route('prestamo.store') }}"  method="POST">

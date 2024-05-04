@@ -18,9 +18,13 @@
                 </div>
             @endif
             <div>
-                @foreach ($prestamos as $prestamo)
-                    <x-prestamos.prestamo-block :prestamo="$prestamo" />
-                @endforeach
+                @if ($prestamos->isEmpty())
+                    <h2>No tiene ningún préstamo activo.</h2>
+                @else
+                    @foreach ($prestamos as $prestamo)
+                        <x-prestamos.prestamo-block :prestamo="$prestamo" />
+                    @endforeach
+                @endif
             </div>
         </div>
     </div>

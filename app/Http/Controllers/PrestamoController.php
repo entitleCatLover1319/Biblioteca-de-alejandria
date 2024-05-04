@@ -10,7 +10,9 @@ use App\Models\Libro;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
+use App\Mail\BorrowStartNotification;
 
 class PrestamoController extends Controller
 {
@@ -56,7 +58,7 @@ class PrestamoController extends Controller
      */
     public function create()
     {
-        $return_date = Carbon::now()->addDays(14)->toFormattedDayDateString();
+        $return_date = Carbon::now()->addDays(15)->format('Y-m-d');
         $libro_id = request()->input('libro');
         $copia_libro_id = request()->input('copia');
         return view('prestamos.create', compact('return_date', 'libro_id', 'copia_libro_id'));
@@ -76,10 +78,11 @@ class PrestamoController extends Controller
             'user_id' => Auth::id(),
             'libro_id' => $request->libro_id,
             'copia_libro_id' => $request->copia_libro_id,
-            'fecha_devolucion' => Carbon::now()->addDays(14),
+            'fecha_devolucion' => Carbon::now()->addDays(15),
             'dias_atraso' => 0,
         ]);
 
+        //Mail::to($request->user())->send(new BorrowStartNotification($prestamo));
         return redirect()->route('dashboard');
     }
 
