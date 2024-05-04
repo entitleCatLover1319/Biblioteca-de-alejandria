@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            Ejemplar número {{ $copiaLibro->id }} de {{ $copiaLibro->libro->titulo }}
+            Ejemplar de {{ $copiaLibro->libro->titulo }}
         </h2>
     </x-slot>
     <div class="container py-6">

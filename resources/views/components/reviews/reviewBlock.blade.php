@@ -37,9 +37,9 @@
           <p class="lead">{{ $review->contenido }}</p>
           <footer>
               Publicado en
-              <cite>{{ $review->created_at }}.</cite>
+              <cite>{{ $review->created_at->format('Y-m-d') }}.</cite>
               @if (!$review->created_at->is($review->updated_at))
-                  Actualizado por última vez en <cite>{{ $review->updated_at }}</cite>
+                  <span style="margin-left:10px">Actualizado por última vez en <cite>{{ $review->updated_at->format('Y-m-d') }}</cite></span>
               @endif
           </footer>
         </blockquote>

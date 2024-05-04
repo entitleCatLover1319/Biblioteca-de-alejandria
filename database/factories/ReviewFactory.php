@@ -16,9 +16,12 @@ class ReviewFactory extends Factory
      */
     public function definition(): array
     {
+        $creation_date = fake()->dateTimeBetween('-3 week', now());
         return [
             'contenido' => fake()->paragraph(),
             'puntaje' => fake()->numberBetween(1, 5),
+            'created_at' => $creation_date,
+            'updated_at'=> $creation_date,
         ];
     }
 }

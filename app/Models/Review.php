@@ -17,6 +17,8 @@ class Review extends Model
         'user_id',
         'contenido',
         'puntaje',
+        'created_at',
+        'updated_at',
     ];
 
     public function user(): BelongsTo {
