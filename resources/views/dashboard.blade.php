@@ -12,10 +12,10 @@
     <div class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             @if (Auth::user()->isAdmin())
-                <div class="bg-white dark:bg-gray-800 overflow-hidden sm:rounded-lg">
-                    <a class="btn btn-primary" href="{{ route('libro.create') }}">Registrar libro</a>
-                    <a class="btn btn-primary" href="{{ route('prestamo.index') }}">Prestamos activos</a>
-                    <a class="btn btn-primary" href="{{ route('libro.trashed') }}">Libros borrados</a>
+                <div style="gap:10px" class="flex justify-content-between bg-white dark:bg-gray-800 overflow-hidden">
+                    <a class="flex-grow-1 btn btn-primary" href="{{ route('libro.create') }}">Registrar libro</a>
+                    <a class="flex-grow-1 btn btn-primary" href="{{ route('prestamo.index') }}">Prestamos activos</a>
+                    <a class="flex-grow-1 btn btn-primary" href="{{ route('libro.trashed') }}">Libros borrados</a>
                 </div>
             @else
                 <div>

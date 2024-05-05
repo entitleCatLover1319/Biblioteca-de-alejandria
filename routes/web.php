@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\LibroController;
 use App\Http\Controllers\CopiaLibroController;
 use App\Http\Controllers\ReviewController;
@@ -19,8 +20,11 @@ use App\Http\Controllers\DashboardController;
 */
 
 Route::get('/', function () {
+    if (Auth::check()) {
+        return redirect()->route('dashboard');
+    }
     return view('welcome');
-});
+})->name('landingPage');
 
 // Register Libro resource methods under the auth middleware
 Route::resource('libro', LibroController::class)->only([
