@@ -22,6 +22,12 @@
                             maxlength="255"
                         />
 
+                        <datalist id="autores">
+                            @foreach ($autores as $autor)
+                                <option value="{{ $autor->nombre }}" />
+                            @endforeach
+                        </datalist>
+
                         <x-forms.normalInput
                             name="autor"
                             label="Autor:"
