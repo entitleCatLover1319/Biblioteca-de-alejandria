@@ -61,7 +61,7 @@ class CopiaLibroController extends Controller
         $libro = Libro::where('id', $request->libro_id)->first();
 
         // Store portada image.
-        $image_path = $request->file('portada')->store('public/images');
+        $image_path = $request->file('portada')->store('images');
 
         // Saves instances in DB.
         $libro->save();
