@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('titulo');
             $table->unsignedBigInteger('autor_id');
+            $table->softDeletes();
 
             $table->foreign('autor_id')->references('id')->on('autor')->onDelete('cascade');
         });

@@ -57,7 +57,7 @@ class LibroPolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Libro $libro): Response
+    public function restore(User $user): Response
     {
         return $user->isAdmin()
             ? Response::allow()
@@ -67,7 +67,7 @@ class LibroPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Libro $libro): Response
+    public function forceDelete(User $user): Response
     {
         return $user->isAdmin()
             ? Response::allow()

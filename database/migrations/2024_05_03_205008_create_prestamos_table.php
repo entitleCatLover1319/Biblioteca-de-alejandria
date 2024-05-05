@@ -19,6 +19,7 @@ return new class extends Migration
             $table->date('fecha_devolucion');
             $table->integer('dias_atraso')->defaut(0);
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('libro_id')->references('id')->on('libro')->onDelete('cascade');

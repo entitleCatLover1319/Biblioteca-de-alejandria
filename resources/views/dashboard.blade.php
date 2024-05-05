@@ -13,19 +13,21 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             @if (Auth::user()->isAdmin())
                 <div class="bg-white dark:bg-gray-800 overflow-hidden sm:rounded-lg">
-                    <a href="{{ route('prestamo.index') }}">Ver prestamos de usuarios.</a>
-                    <a href="{{ route('libro.create') }}">Registrar libro.</a>
+                    <a class="btn btn-primary" href="{{ route('libro.create') }}">Registrar libro</a>
+                    <a class="btn btn-primary" href="{{ route('prestamo.index') }}">Prestamos activos</a>
+                    <a class="btn btn-primary" href="{{ route('libro.trashed') }}">Libros borrados</a>
+                </div>
+            @else
+                <div>
+                    @if ($prestamos->isEmpty())
+                        <h2>No tienes ningún préstamo activo.</h2>
+                    @else
+                        @foreach ($prestamos as $prestamo)
+                            <x-prestamos.prestamo-block :prestamo="$prestamo" />
+                        @endforeach
+                    @endif
                 </div>
             @endif
-            <div>
-                @if ($prestamos->isEmpty())
-                    <h2>No tiene ningún préstamo activo.</h2>
-                @else
-                    @foreach ($prestamos as $prestamo)
-                        <x-prestamos.prestamo-block :prestamo="$prestamo" />
-                    @endforeach
-                @endif
-            </div>
         </div>
     </div>
 </x-app-layout>

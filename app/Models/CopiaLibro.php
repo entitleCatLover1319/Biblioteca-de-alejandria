@@ -6,11 +6,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 
 class CopiaLibro extends Model
 {
     Use HasFactory;
+    use SoftDeletes;
     protected $table = 'copia_libro';
     protected $fillable = [
         'isbn_13',

@@ -142,7 +142,67 @@ class LibroController extends Controller
     {
         Gate::authorize('delete', $libro);
 
+        // borrar todo lo relacionado a esta cocha
+        $copias = $libro->copias;
+        foreach ($copias as $copia) {
+            $copia->delete();
+        }
+        $reviews = $libro->reviews;
+        foreach ($reviews as $review) {
+            $review->delete();
+        }
+        $prestamos = $libro->prestamos;
+        foreach ($prestamos as $prestamo) {
+            $prestamo->delete();
+        }
         $libro->delete();
         return redirect()->route('libro.index');
+    }
+
+    public function trashed()
+    {
+        Gate::authorize('restore', Libro::class);
+        $libros = Libro::withTrashed()->whereNotNull('deleted_at')->with('autor')->get();
+        return view('libro.trashed', compact('libros'));
+    }
+
+    public function restore(string $libro_id)
+    {
+        Gate::authorize('restore', Libro::class);
+        $libro = Libro::withTrashed()->find($libro_id);
+        $copias = $libro->copias()->withTrashed()->get();
+        foreach ($copias as $copia) {
+            $copia->restore();
+        }
+        $reviews = $libro->reviews()->withTrashed()->get();
+        foreach ($reviews as $review) {
+            $review->restore();
+        }
+        $prestamos = $libro->prestamos()->withTrashed()->get();
+        foreach ($prestamos as $prestamo) {
+            $prestamo->restore();
+        }
+        $libro->restore();
+        return redirect()->route('libro.trashed');
+    }
+
+    public function forceDelete(string $libro_id)
+    {
+        Gate::authorize('forceDelete', Libro::class);
+        $libro = Libro::withTrashed()->find($libro_id);
+        $copias = $libro->copias()->withTrashed()->get();
+        foreach ($copias as $copia) {
+            $copia->forceDelete();
+        }
+        $reviews = $libro->reviews()->withTrashed()->get();
+        foreach ($reviews as $review) {
+            $review->forceDelete();
+        }
+        $prestamos = $libro->prestamos()->withTrashed()->get();
+        foreach ($prestamos as $prestamo) {
+            $prestamo->forceDelete();
+        }
+        $libro->forceDelete();
+        return redirect()->route('libro.trashed');
     }
 }

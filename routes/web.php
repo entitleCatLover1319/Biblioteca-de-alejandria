@@ -27,6 +27,10 @@ Route::resource('libro', LibroController::class)->only([
     'create', 'store', 'edit', 'update', 'destroy'
 ])->middleware('auth');
 
+Route::get('libro/trashed', [LibroController::class, 'trashed'])->middleware('auth')->name('libro.trashed');
+Route::patch('libro/trashed/{libro_id}', [LibroController::class, 'restore'])->middleware('auth')->name('libro.restore');
+Route::delete('libro/trashed/{libro_id}', [LibroController::class, 'forceDelete'])->middleware('auth')->name('libro.forceDelete');
+
 // This routes can be accessed by guest users
 Route::get('libro', [LibroController::class, 'index'])->name('libro.index');
 Route::get('libro/{libro}', [LibroController::class, 'show'])->name('libro.show');
@@ -46,9 +50,7 @@ Route::middleware(['auth'])->group(function () {
 Route::resource('review', ReviewController::class)->middleware('auth');
 
 Route::resource('prestamo', PrestamoController::class)->middleware('auth');
-// Route::get('probar-correo/{copiaLibro}', function(CopiaLibro $copia_libro) {
-//     return new App\Mail\BorrowStartNotification($copia_libro);
-// })->name('probar-correo');
+
 
 Route::middleware([
     'auth:sanctum',

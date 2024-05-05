@@ -21,6 +21,7 @@ return new class extends Migration
             $table->tinyInteger('edicion');
             $table->string('portada')->nullable($value = true);
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('libro_id')->references('id')->on('libro')->onDelete('cascade');
             $table->foreign('editorial_id')->references('id')->on('editorials')->onDelete('cascade');
