@@ -15,7 +15,7 @@
         @if (Auth::check())
             <!-- Checks if logged in user has already posted a review. If not -->
             <!-- let they post one -->
-            @if (!$libro->usersReviewed()->where('user_id', Auth::id())->first())
+            @if (!$libro->reviews()->where('user_id', Auth::id())->first())
             <form action="{{ route('review.store') }}" method="POST">
                 @csrf
 

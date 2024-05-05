@@ -48,6 +48,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::resource('review', ReviewController::class)->middleware('auth');
+Route::delete('review/trashed/{review_id}', [ReviewController::class, 'forceDelete'])->middleware('auth')->name('review.forceDelete');
 
 Route::resource('prestamo', PrestamoController::class)->middleware('auth');
 

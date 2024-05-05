@@ -50,7 +50,7 @@ class ReviewController extends Controller
             'puntaje' => $request->puntaje,
         ]);
 
-        return redirect()->back();
+        return redirect()->route('libro.show', ['libro' => $request->libro_id]);
     }
 
     /**
@@ -96,6 +96,14 @@ class ReviewController extends Controller
     {
         Gate::authorize('delete', $review);
         $review->delete();
+        return redirect()->back();
+    }
+
+    public function forceDelete(string $review_id)
+    {
+        $review = Review::withTrashed()->find($review_id);
+        Gate::authorize('forceDelete', $review);
+        $review->forceDelete();
         return redirect()->back();
     }
 }
