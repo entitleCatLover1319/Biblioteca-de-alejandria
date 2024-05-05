@@ -6,6 +6,6 @@
         <th>ISBN 13</th>
         <th>ISBN 10</th>
         <th>Portada</th>
-        <th>Acciones</th>
+        <th>Prestamo</th>
     </tr>
 </thead>

@@ -14,16 +14,28 @@
         <x-libros.portada src="{{ asset($copia->portada) }}" />
     </td>
     <td>
-        <a href="{{ route('copiaLibro.show', ['copiaLibro' => $copia->id]) }}">Ver ejemplar.</a>
-        @can('update', $copia)
-            <a href="{{ route('copiaLibro.edit', ['copiaLibro' => $copia->id]) }}">Editar ejemplar.</a>
-        @endcan
-        @can(['delete', 'forceDelete'], $copia)
-            <form style="display:inline" action="{{ route('copiaLibro.destroy', ['copiaLibro' => $copia->id]) }}" method="POST">
-                @csrf
-                @method('DELETE')
-                <button class="btn btn-danger" type="submit">Eliminar ejemplar.</button>
-            </form>
-        @endcan
+        <div style="display:flex; gap:10px" class="justify-content-center align-items-center">
+            @if ($copia->prestamo == null)
+                <form action="{{ route('prestamo.create') }}" method="GET">
+                    <input name="libro" value="{{ $copia->libro->id }}" type="hidden">
+                    <input name="copia" value="{{ $copia->id }}" type="hidden">
+                    <button class="btn btn-link" type="submit" >Solicitar préstamo.</button>
+                </form>
+            @else
+                <span style="color:red">Copia en prestamo.</span>
+            @endif
+            @can('update', $copia)
+                <a  href="{{ route('copiaLibro.edit', ['copiaLibro' => $copia->id]) }}">Editar ejemplar.</a>
+            @endcan
+        </div>
+        <div style="display:flex" class="justify-content-center">
+            @can(['delete', 'forceDelete'], $copia)
+                <form action="{{ route('copiaLibro.destroy', ['copiaLibro' => $copia->id]) }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button class="btn btn-danger" type="submit">Eliminar ejemplar.</button>
+                </form>
+            @endcan
+        </div>
     </td>
 </tbody>

@@ -23,7 +23,7 @@ class PrestamoFactory extends Factory
         $fecha_devolucion = fake()->date();
         $creation_date = fake()->dateTimeBetween('-3 week', now());
         $return_date = clone $creation_date;
-        $return_date = $return_date->modify('+ 14 day');
+        $return_date = $return_date->modify('+ 15 day');
         $interval = $return_date->diff(now(), false);
         $dias_atraso = $interval->format('%R%a') > 0 ? $interval->days : 0;
         return [

@@ -12,10 +12,14 @@
         <x-libros.portada src="{{ asset($copiaLibro->portada) }}" />
     </td>
     <td>
-        <form action="{{ route('prestamo.create') }}" method="GET">
-            <input name="libro" value="{{ $copiaLibro->libro->id }}" type="hidden">
-            <input name="copia" value="{{ $copiaLibro->id }}" type="hidden">
-            <button class="btn btn-link" type="submit" >Solicitar préstamo.</button>
-        </form>
+        @if ($copiaLibro->prestamo == null)
+            <form action="{{ route('prestamo.create') }}" method="GET">
+                <input name="libro" value="{{ $copiaLibro->libro->id }}" type="hidden">
+                <input name="copia" value="{{ $copiaLibro->id }}" type="hidden">
+                <button class="btn btn-link" type="submit" >Solicitar préstamo.</button>
+            </form>
+        @else
+            <span style="color:red">Copia en prestamo.</span>
+        @endif
     </td>
 </tbody>
