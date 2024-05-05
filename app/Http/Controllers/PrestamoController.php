@@ -82,7 +82,7 @@ class PrestamoController extends Controller
             'dias_atraso' => 0,
         ]);
 
-        //Mail::to($request->user())->send(new BorrowStartNotification($prestamo));
+        Mail::to($request->user())->send(new BorrowStartNotification($prestamo));
         return redirect()->route('dashboard');
     }
 
