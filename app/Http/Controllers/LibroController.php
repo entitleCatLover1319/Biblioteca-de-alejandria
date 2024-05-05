@@ -8,6 +8,7 @@ use App\Models\Editorial;
 use App\Models\CopiaLibro;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
 
 class LibroController extends Controller
 {
@@ -191,8 +192,17 @@ class LibroController extends Controller
         Gate::authorize('forceDelete', Libro::class);
         $libro = Libro::withTrashed()->find($libro_id);
         $copias = $libro->copias()->withTrashed()->get();
+        $portadas = array();
         foreach ($copias as $copia) {
+            // Checks if the copies have different portadas
+            if (!in_array($copia->portada, $portadas)) {
+                $portadas[] = $copia->portada;
+            }
             $copia->forceDelete();
+        }
+        // Delete every portada found
+        foreach ($portadas as $portada) {
+            Storage::delete($portada);
         }
         $reviews = $libro->reviews()->withTrashed()->get();
         foreach ($reviews as $review) {
